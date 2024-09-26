@@ -1,6 +1,14 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">ShelterViewer</a>
+﻿@inject Services.VaultService VaultService
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">        
+        @if (VaultService.IsVaultEmpty()) 
+        {
+            <a class="navbar-brand" href="">Shelter Viewer</a>
+        } else
+        {
+            <a class="navbar-brand" href="">Vault @VaultService.Name</a>
+        }
     </div>
 </div>
 
@@ -25,3 +33,15 @@
         </div>
     </nav>
 </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        VaultService.OnVaultChanged += OnVaultChange;
+    }
+
+    private void OnVaultChange(object sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+}

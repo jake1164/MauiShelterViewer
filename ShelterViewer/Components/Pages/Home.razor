@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject IJSRuntime JS
+@inject Services.VaultService VaultService
 
 <PageTitle>Home</PageTitle>
 
@@ -31,8 +32,17 @@
     private async void LoadFile()
     {
         // Using MAUI we should set the default path based on the OS?
-        var content = await JS.InvokeAsync<string>("shelter.readFileAsBase64", fileInput);
-        var jsonString = await JS.InvokeAsync<string>("shelter.decryptString", content);        
-        Console.WriteLine(jsonString);
+        try
+        {
+            var content = await JS.InvokeAsync<string>("shelter.readFileAsBase64", fileInput);
+            var jsonString = await JS.InvokeAsync<string>("shelter.decryptString", content);
+            Console.WriteLine(jsonString);
+            VaultService.InitializeVault(jsonString);
+            StateHasChanged();
+        } catch (Exception ex)
+        {
+            Console.WriteLine($"Unable to load vault due to exception {ex.Message}", ex);
+        }
+
     }
 }
