@@ -20,16 +20,35 @@
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
+        </div>        
+        <div class="nav-item px-3">
+            @if (!VaultService.IsVaultEmpty())
+            {
+                <NavLink class="nav-link" href="dwellers">
+                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Dwellers (@VaultService.DwellerCount)
+                </NavLink>
+            }
+            else
+            {
+                <span class="nav-link disabled" aria-disabled="true">
+                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Dwellers
+                </span>
+            }
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
+            @if (!VaultService.IsVaultEmpty())
+            {
+                <NavLink class="nav-link" href="rooms">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Vault Rooms (@VaultService.RoomCount)
+                </NavLink>
+            }
+            else
+            {
+                <span class="nav-link disabled" aria-disabled="true">
+                    <span class="bi bi-box-seam-nav-menu" aria-hidden="true"></span> Vault Rooms
+                </span>
+            }
+
         </div>
     </nav>
 </div>
