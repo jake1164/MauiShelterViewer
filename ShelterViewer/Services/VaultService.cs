@@ -5,7 +5,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using ShelterViewer.Models; 
+using ShelterViewer.Models;
+using ShelterViewer.Utility;
 
 namespace ShelterViewer.Services;
 
@@ -62,7 +63,8 @@ public class VaultService
 
         try
         {
-            var settings = new JsonSerializerSettings();
+            var settings = new IntJsonConverter();
+            
             _vaultString = vaultJsonString;
             _vaultData = JsonConvert.DeserializeObject<dynamic>(_vaultString, settings);
 
@@ -81,23 +83,22 @@ public class VaultService
 
     public List<Dweller> GetDwellers()
     {
-        var settings = new JsonSerializerSettings();
+        var settings = new IntJsonConverter();
         List<Dweller> dwellers = new();
         if (_vaultData == null)
             return new();
-
-        try
+        foreach (var dweller in _vaultData.dwellers.dwellers)
         {
-            
-            foreach(var dweller in _vaultData.dwellers.dwellers)
+            try
             {
                 Console.WriteLine(dweller);
                 dwellers.Add(JsonConvert.DeserializeObject<Dweller>(dweller.ToString(), settings));
+
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Unable to convert dwellers string to JSON Object: " + ex.Message);
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to convert dwellers string to JSON Object: " + ex.Message);
+            }
         }
 
         return dwellers;
@@ -105,7 +106,7 @@ public class VaultService
 
     public List<Room> GetRooms()
     {
-        var settings = new JsonSerializerSettings();
+        var settings = new IntJsonConverter();
         List<Room> rooms = new();
         if (_vaultData == null)
             return new();
