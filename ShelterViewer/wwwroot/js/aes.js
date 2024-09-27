@@ -190,10 +190,11 @@ sjcl.codec.utf8String = {
       c = sjcl.bitArray.bitLength(a),
       d, e;
     for (d = 0; d < c / 8; d++) 0 === (d & 3) && (e = a[d / 4]), b += String.fromCharCode(e >>> 24), e <<= 8;
-    return decodeURIComponent(escape(b))
+        return decodeURIComponent(encodeURIComponent(b));
   },
   toBits: function (a) {
-    a = unescape(encodeURIComponent(a));
+      a = decodeURIComponent(encodeURIComponent(a));
+
     var b = [],
       c, d = 0;
     for (c = 0; c < a.length; c++) d = d << 8 | a.charCodeAt(c), 3 === (c & 3) && (b.push(d), d = 0);
@@ -205,8 +206,8 @@ sjcl.codec.hex = {
   fromBits: function (a) {
     var b = "",
       c;
-    for (c = 0; c < a.length; c++) b += ((a[c] | 0) + 0xf00000000000).toString(16).substr(4);
-    return b.substr(0, sjcl.bitArray.bitLength(a) / 4)
+    for (c = 0; c < a.length; c++) b += ((a[c] | 0) + 0xf00000000000).toString(16).substring(4);
+    return b.substring(0, sjcl.bitArray.bitLength(a) / 4)
   },
   toBits: function (a) {
     var b, c = [],
@@ -839,8 +840,8 @@ sjcl.prng.prototype = {
   },
   W: function (a) {
     a = a.accelerationIncludingGravity.x || a.accelerationIncludingGravity.y || a.accelerationIncludingGravity.z;
-    if (window.orientation) {
-      var b = window.orientation;
+    if (window.screen.orientation) {
+      var b = window.screen.orientation;
       "number" === typeof b && sjcl.random.addEntropy(b, 1, "accelerometer")
     }
     a && sjcl.random.addEntropy(a, 2, "accelerometer");
@@ -970,7 +971,7 @@ sjcl.json = {
           c += a[b];
           break;
         case "string":
-          c += '"' + escape(a[b]) + '"';
+          c += '"' + encodeURIComponent(a[b]) + '"';
           break;
         case "object":
           c += '"' + sjcl.codec.base64.fromBits(a[b], 0) + '"';
@@ -986,7 +987,7 @@ sjcl.json = {
     a = a.replace(/^\{|\}$/g, "").split(/,/);
     var b = {},
       c, d;
-    for (c = 0; c < a.length; c++)(d = a[c].match(/^\s*(?:(["']?)([a-z][a-z0-9]*)\1)\s*:\s*(?:(-?\d+)|"([a-z0-9+\/%*_.@=\-]*)"|(true|false))$/i)) || q(new sjcl.exception.invalid("json decode: this isn't json!")), null != d[3] ? b[d[2]] = parseInt(d[3], 10) : null != d[4] ? b[d[2]] = d[2].match(/^(ct|adata|salt|iv)$/) ? sjcl.codec.base64.toBits(d[4]) : unescape(d[4]) : null != d[5] && (b[d[2]] = "true" === d[5]);
+      for (c = 0; c < a.length; c++)(d = a[c].match(/^\s*(?:(["']?)([a-z][a-z0-9]*)\1)\s*:\s*(?:(-?\d+)|"([a-z0-9+\/%*_.@=\-]*)"|(true|false))$/i)) || q(new sjcl.exception.invalid("json decode: this isn't json!")), null != d[3] ? b[d[2]] = parseInt(d[3], 10) : null != d[4] ? b[d[2]] = d[2].match(/^(ct|adata|salt|iv)$/) ? sjcl.codec.base64.toBits(d[4]) : decodeURIComponent(d[4]) : null != d[5] && (b[d[2]] = "true" === d[5]);
     return b
   },
   f: function (a, b, c) {

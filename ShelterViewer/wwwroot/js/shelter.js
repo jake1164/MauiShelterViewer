@@ -1,5 +1,5 @@
 ﻿"use strict";
-//import { key, iv } from './aes.js'
+
 const key = [2815074099, 1725469378, 4039046167, 874293617, 3063605751, 3133984764, 4097598161, 3620741625];
 sjcl.beware["CBC mode is dangerous because it doesn't protect message integrity."]();
 
