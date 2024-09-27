@@ -103,6 +103,29 @@ public class VaultService
         return dwellers;
     }
 
+    public List<Room> GetRooms()
+    {
+        var settings = new JsonSerializerSettings();
+        List<Room> rooms = new();
+        if (_vaultData == null)
+            return new();
+
+
+        foreach (var room in _vaultData.vault.rooms)
+        {
+            try
+            {
+                rooms.Add(JsonConvert.DeserializeObject<Room>(room.ToString(), settings));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to convert rooms string to JSON Object: " + ex.Message);
+            }
+        }
+
+        return rooms;
+    }
+
     private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
     {
         if (OnVaultChanged == null)
