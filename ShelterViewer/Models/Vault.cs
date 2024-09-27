@@ -313,7 +313,7 @@ public class Health
 
 public class Experience
 {
-    public int experienceValue { get; set; }
+    public long experienceValue { get; set; }
     public int currentLevel { get; set; }
     public int storage { get; set; }
     public int accum { get; set; }

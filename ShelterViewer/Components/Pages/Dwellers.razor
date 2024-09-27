@@ -1,6 +1,26 @@
 ﻿@page "/dwellers"
+@using ShelterViewer.Models
+@inject Services.VaultService VaultService
+
 <h3>Dwellers</h3>
 
-@code {
+<MudTable Items="DwellerList">
+    <HeaderContent>
+        <MudTh>First Name</MudTh>
+        <MudTh>Last Name</MudTh>
+        <MudTh>Level</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTh DataLabel="First Name">@context.name</MudTh>
+        <MudTh DataLabel="Last Name">@context.lastName</MudTh>
+        <MudTh DataLabel="Level">@context.experience.currentLevel</MudTh>
+    </RowTemplate>
+</MudTable>
 
+@code {
+    List<Dweller> DwellerList { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        DwellerList = VaultService.GetDwellers();
+    }
 }
