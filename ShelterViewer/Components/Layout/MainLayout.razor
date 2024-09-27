@@ -1,26 +1,28 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider/>
+<MudPopoverProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="/about">About</a>
-        </div>
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        Shelter Viewer
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <NavMenu/>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
-@* Required *@
-<MudThemeProvider />
-<MudPopoverProvider />
+@code {
+    bool _drawerOpen = true;
 
-@* Needed for dialogs *@
-<MudDialogProvider />
-
-@* Needed for snackbars *@
-<MudSnackbarProvider />
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

@@ -1,57 +1,11 @@
 ﻿@inject Services.VaultService VaultService
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">        
-        @if (VaultService.IsVaultEmpty()) 
-        {
-            <a class="navbar-brand" href="">Shelter Viewer</a>
-        } else
-        {
-            <a class="navbar-brand" href="">Vault @VaultService.Name</a>
-        }
-    </div>
-</div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>        
-        <div class="nav-item px-3">
-            @if (!VaultService.IsVaultEmpty())
-            {
-                <NavLink class="nav-link" href="dwellers">
-                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Dwellers (@VaultService.DwellerCount)
-                </NavLink>
-            }
-            else
-            {
-                <span class="nav-link disabled" aria-disabled="true">
-                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Dwellers
-                </span>
-            }
-        </div>
-        <div class="nav-item px-3">
-            @if (!VaultService.IsVaultEmpty())
-            {
-                <NavLink class="nav-link" href="rooms">
-                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Vault Rooms (@VaultService.RoomCount)
-                </NavLink>
-            }
-            else
-            {
-                <span class="nav-link disabled" aria-disabled="true">
-                    <span class="bi bi-box-seam-nav-menu" aria-hidden="true"></span> Vault Rooms
-                </span>
-            }
-
-        </div>
-    </nav>
-</div>
+<MudNavMenu>
+    <MudNavLink Href="/" Match="NavLinkMatch.Prefix">Home</MudNavLink>
+    <MudNavLink Href="/dwellers" Match="NavLinkMatch.Prefix" Disabled="@VaultService.IsVaultEmpty()">Dwellers @if (!VaultService.IsVaultEmpty()) { <span>(@VaultService.DwellerCount)</span> }</MudNavLink>
+    <MudNavLink Href="/rooms" Match="NavLinkMatch.Prefix" Disabled="@VaultService.IsVaultEmpty()">Vault Rooms @if (!VaultService.IsVaultEmpty()) { <span>(@VaultService.RoomCount)</span> }</MudNavLink>
+</MudNavMenu>
 
 @code {
     protected override void OnInitialized()

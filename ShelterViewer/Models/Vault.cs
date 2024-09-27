@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ShelterViewer.Models;
-
+#pragma warning disable 
 /// <summary>
 /// THIS FILE WAS AUTO-GENERATED AND IS ONLY USED FOR REFERENCE
 /// </summary>
