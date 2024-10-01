@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -763,6 +764,7 @@ public class Room
 {
     public bool emergencyDone { get; set; }
     public string type { get; set; }
+    [JsonProperty("class")]
     public string _class { get; set; }
     public int mergeLevel { get; set; }
     public int row { get; set; }
