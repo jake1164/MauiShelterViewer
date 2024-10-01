@@ -86,19 +86,18 @@ public class VaultService
         List<Dweller> dwellers = new();
         if (_vaultData == null)
             return new();
-
-        try
+        foreach (var dweller in _vaultData.dwellers.dwellers)
         {
-            
-            foreach(var dweller in _vaultData.dwellers.dwellers)
+            try
             {
                 Console.WriteLine(dweller);
                 dwellers.Add(JsonConvert.DeserializeObject<Dweller>(dweller.ToString(), settings));
+
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Unable to convert dwellers string to JSON Object: " + ex.Message);
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to convert dwellers string to JSON Object: " + ex.Message);
+            }
         }
 
         return dwellers;
