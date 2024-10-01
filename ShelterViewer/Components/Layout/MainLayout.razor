@@ -9,7 +9,14 @@
 <MudLayout>
     <MudAppBar>
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        Shelter Viewer
+        @if (VaultService.IsVaultEmpty())
+        {
+            <span>Fallout Shelter Viewer</span>
+        } else
+        {
+            <span>Fallout Shelter @VaultService.Name</span>
+        }
+
         <MudSpacer/>
         @if(!VaultService.IsVaultEmpty())
         {

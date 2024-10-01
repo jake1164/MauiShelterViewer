@@ -75,6 +75,13 @@ public class VaultService
             Console.WriteLine("Unable to convert vault string to JSON Object: " + ex.Message);
         }
     }
+
+    public void CloseVault()
+    {
+        _vaultString = String.Empty;
+        _vaultData = null;
+        NotifyPropertyChanged();
+    }
     public bool IsVaultEmpty()
     {
         return _vaultString == String.Empty;

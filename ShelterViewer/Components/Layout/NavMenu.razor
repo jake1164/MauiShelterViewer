@@ -2,7 +2,16 @@
 
 
 <MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.Prefix">Home</MudNavLink>
+    <MudNavLink Href="/" Match="NavLinkMatch.Prefix">
+        @if (VaultService.IsVaultEmpty())
+        {
+            <span>Load Vault</span>
+        }
+        else
+        {
+            <span>Shelter Info</span>
+        }
+    </MudNavLink>
     <MudNavLink Href="/dwellers" Match="NavLinkMatch.Prefix" Disabled="@VaultService.IsVaultEmpty()">Dwellers @if (!VaultService.IsVaultEmpty()) { <span>(@VaultService.DwellerCount)</span> }</MudNavLink>
     <MudNavLink Href="/rooms" Match="NavLinkMatch.Prefix" Disabled="@VaultService.IsVaultEmpty()">Vault Rooms @if (!VaultService.IsVaultEmpty()) { <span>(@VaultService.RoomCount)</span> }</MudNavLink>
 </MudNavMenu>
