@@ -9,18 +9,35 @@
         <MudTh>First Name</MudTh>
         <MudTh>Last Name</MudTh>
         <MudTh>Level</MudTh>
+        <MudTh>Health</MudTh>
+        <MudTh>Experience</MudTh>
+        <MudTh>Room</MudTh>
+        <MudTh>Children</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTh DataLabel="First Name">@context.name</MudTh>
         <MudTh DataLabel="Last Name">@context.lastName</MudTh>
         <MudTh DataLabel="Level">@context.experience.currentLevel</MudTh>
+        <MudTh DataLabel="Health">@context.health.healthValue (max: @context.health.maxHealth)</MudTh>
+        <MudTh DataLabel="Experience">@context.experience.experienceValue (wasteland: @context.experience.wastelandExperience)</MudTh>        
+        <MudTh DataLabel="Room">@GetRoomName(context.savedRoom) (@context.savedRoom) </MudTh>
+        <MudTh DataLabel="Children">@String.Join(", ", @context.relations.ascendants)</MudTh>
     </RowTemplate>
 </MudTable>
 
 @code {
     List<Dweller> DwellerList { get; set; } = new();
+    List<Room> RoomList { get; set; } = new();
     protected override void OnInitialized()
     {
         DwellerList = VaultService.GetDwellers();
+        RoomList = VaultService.GetRooms();
     }
+
+    private string GetRoomName(int roomNumber)
+    {
+        var room = RoomList.FirstOrDefault(r => r.deserializeID == roomNumber);
+        return room?.type ?? "Coffee Break";
+    }
+
 }
