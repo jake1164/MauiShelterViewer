@@ -4,26 +4,20 @@
 
 <h3>Dwellers</h3>
 
-<MudTable Items="DwellerList">
-    <HeaderContent>
-        <MudTh>First Name</MudTh>
-        <MudTh>Last Name</MudTh>
-        <MudTh>Level</MudTh>
-        <MudTh>Health</MudTh>
-        <MudTh>Experience</MudTh>
-        <MudTh>Room</MudTh>
-        <MudTh>Children</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTh DataLabel="First Name">@context.name</MudTh>
-        <MudTh DataLabel="Last Name">@context.lastName</MudTh>
-        <MudTh DataLabel="Level">@context.experience.currentLevel</MudTh>
-        <MudTh DataLabel="Health">@context.health.healthValue (max: @context.health.maxHealth)</MudTh>
-        <MudTh DataLabel="Experience">@context.experience.experienceValue (wasteland: @context.experience.wastelandExperience)</MudTh>        
-        <MudTh DataLabel="Room">@GetRoomName(context.savedRoom) (@context.savedRoom) </MudTh>
-        <MudTh DataLabel="Children">@String.Join(", ", @context.relations.ascendants)</MudTh>
-    </RowTemplate>
-</MudTable>
+<MudDataGrid Items="DwellerList">
+    <Columns>
+        <PropertyColumn Property="x => x.name" Title="Name" />
+        <PropertyColumn Property="x => x.lastName" Title="Last Name" />
+        <PropertyColumn Property="x => x.experience.currentLevel" Title="Level" />
+        <PropertyColumn Property="x => x.health.healthValue" Title="Health" />
+        <PropertyColumn Property="x => x.health.maxHealth" Title="Max Health" />
+        <PropertyColumn Property="x => x.health.radiationValue" Title="Radiation" />
+        <PropertyColumn Property="x => x.experience.experienceValue" Title="Experience" />
+        <PropertyColumn Property="x => x.experience.wastelandExperience" Title="Wasteland Experience" />
+        <PropertyColumn Property="x => x.savedRoom" Title="Room" />
+        <PropertyColumn Property="x => x.relations.ascendants.Count(x => x > 0)" Title="Children" />
+    </Columns>
+</MudDataGrid>
 
 @code {
     List<Dweller> DwellerList { get; set; } = new();
